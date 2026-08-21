@@ -1,0 +1,28 @@
+# Core app
+streamlit==1.61.1
+
+# PDF reading
+pypdf==6.16.1
+
+# PDF repair for malformed/corrupted files (broken xref tables, etc.)
+pikepdf>=9.0
+
+# Embeddings (local, free — used by both the plain and LangChain versions)
+sentence-transformers==5.7.0
+
+# Vector store (LangChain version)
+faiss-cpu>=1.8
+
+# LangChain stack
+langchain>=0.3
+langchain-community>=0.3
+langchain-text-splitters>=0.3
+langchain-huggingface>=0.1
+langchain-google-genai>=2.0
+langchain-core>=0.3
+
+# Direct Gemini SDK (plain-Python version)
+google-generativeai==0.8.6
+
+# Numeric/vector math (plain-Python version's manual cosine search)
+numpy==2.5.2
