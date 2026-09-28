@@ -1,7 +1,3 @@
-"""
-PDF Q&A — LangChain version (Enhanced UI v2)
-"""
-
 import os
 import time
 import tempfile
@@ -17,18 +13,11 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
-
-# ---------------------------------------------------------------------------
-# Embedding model
-# ---------------------------------------------------------------------------
 @st.cache_resource(show_spinner=False)
 def load_embeddings():
     return HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 
-# ---------------------------------------------------------------------------
-# Build vector store
-# ---------------------------------------------------------------------------
 def build_vectorstore(file_bytes, chunk_size, chunk_overlap):
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
         tmp.write(file_bytes)
@@ -39,14 +28,11 @@ def build_vectorstore(file_bytes, chunk_size, chunk_overlap):
     was_repaired = False
     try:
         try:
-            # Fast path: LangChain's standard loader (uses pypdf under the hood, strict mode).
+        
             loader = PyPDFLoader(tmp_path)
             documents = loader.load()
         except Exception:
-            # Some PDFs have a malformed internal structure (broken xref table, bad object
-            # index, etc.) that trips pypdf even in lenient mode — often surfacing as a bare
-            # "list index out of range" before a single page is ever read. Repair the file's
-            # structure with pikepdf/qpdf (which rebuilds broken xref/object tables) and retry.
+
             try:
                 import pikepdf
 
@@ -64,16 +50,13 @@ def build_vectorstore(file_bytes, chunk_size, chunk_overlap):
                     if os.path.exists(repaired_path):
                         os.unlink(repaired_path)
             except ImportError:
-                # pikepdf isn't installed — skip repair and go straight to the lenient
-                # fallback below rather than pretending a repair was attempted.
+
                 documents = []
             except Exception:
-                # pikepdf itself couldn't parse/repair the file (severely corrupted or
-                # not actually a PDF) — fall through to the lenient fallback below.
+
                 documents = []
 
-            # If the repair attempt didn't yield anything, fall back to skip-bad-pages mode
-            # so we still salvage whatever content is readable instead of failing outright.
+
             if not documents:
                 from pypdf import PdfReader
                 from langchain_core.documents import Document
@@ -111,10 +94,6 @@ def build_vectorstore(file_bytes, chunk_size, chunk_overlap):
     vectorstore = FAISS.from_documents(chunks, embeddings)
     return vectorstore, len(documents), len(chunks), skipped_pages, was_repaired
 
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
 def page_display(doc):
     """Safely convert a doc's 'page' metadata (0-indexed or missing) to a display string."""
     page = doc.metadata.get("page")
@@ -434,9 +413,6 @@ with st.sidebar:
             st.session_state.chat_history = []
             st.rerun()
 
-# ---------------------------------------------------------------------------
-# MAIN AREA
-# ---------------------------------------------------------------------------
 uploaded_file = st.file_uploader("Upload a PDF", type=["pdf"])
 
 if uploaded_file:
