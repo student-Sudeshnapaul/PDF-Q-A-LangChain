@@ -140,9 +140,7 @@ def build_transcript_text(history, filename):
     return "\n".join(lines)
 
 
-# ---------------------------------------------------------------------------
-# UI CONFIG & STYLES
-# ---------------------------------------------------------------------------
+
 st.set_page_config(page_title="PDF Q&A · LangChain", page_icon="🔗", layout="wide")
 
 st.markdown("""
@@ -382,9 +380,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------------------------
-# SIDEBAR
-# ---------------------------------------------------------------------------
+
 with st.sidebar:
     st.markdown("<div class='sidebar-section-title'>API Config</div>", unsafe_allow_html=True)
     st.caption("Get a free key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey)")
