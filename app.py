@@ -385,7 +385,7 @@ with st.sidebar:
     st.markdown("<div class='sidebar-section-title'>API Config</div>", unsafe_allow_html=True)
     st.caption("Get a free key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey)")
     api_key = st.text_input("API key", type="password", value=os.environ.get("GOOGLE_API_KEY", ""))
-    model_name = st.selectbox("Gemini model", ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-1.5-pro"])
+    model_name = st.selectbox("Gemini model",["gemini-3.5-flash-lite"])
     if api_key:
         st.markdown("<span class='status-glow'>key set</span>", unsafe_allow_html=True)
     else:
