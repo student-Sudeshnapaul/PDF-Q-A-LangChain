@@ -1,16 +1,14 @@
 streamlit==1.61.1
 
-# PDF processing
+
 pypdf==6.16.1
 pikepdf>=9.0
 
-# Local embeddings
+
 sentence-transformers==5.7.0
 
-# Vector database
 faiss-cpu>=1.8
 
-# LangChain
 langchain>=0.3
 langchain-community>=0.3
 langchain-core>=0.3
